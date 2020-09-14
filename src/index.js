@@ -2,19 +2,41 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function Square(props) {
+
+/*
+TODO
+Bold the currently selected item in the move list.
+Rewrite Board to use two loops to make the squares instead of hardcoding them.
+Add a toggle button that lets you sort the moves in either ascending or descending order.
+When someone wins, highlight the three squares that caused the win.
+When no one wins, display a message about the result being a draw.
+*/
+class Square extends React.Component{
+  constructor(props){
+    super(props);
+    this.props = props;
+    this.state = {
+      className: props.className
+    }
+    
+  }
+  render(){
     return (
-      <button className="square" onClick={props.onClick}>
-        {props.value}
+      <button className={this.props.className} onClick={this.props.onClick}>
+        {this.props.value}
       </button>
     );
   }
+
+}
+
   
   class Board extends React.Component {
     renderSquare(i) {
       return (
         <Square
           value={this.props.squares[i]}
+          className={this.props.classNames[i]}
           onClick={() => this.props.onClick(i)}
         />
       );
@@ -49,7 +71,8 @@ function Square(props) {
       this.state = {
         history: [
           {
-            squares: Array(9).fill(null)
+            squares: Array(9).fill(null),
+            classNames: Array(9).fill('square')
           }
         ],
         stepNumber: 0,
@@ -63,6 +86,8 @@ function Square(props) {
       const history = this.state.history.slice(0, this.state.stepNumber + 1);
       const current = history[history.length - 1];
       const squares = current.squares.slice();
+      const classNames = Array(9).fill('square');
+      classNames[i] = 'highlited';
       if (calculateWinner(squares) || squares[i]) {
         return;
       }
@@ -72,7 +97,8 @@ function Square(props) {
       this.setState({
         history: history.concat([
           {
-            squares: squares
+            squares: squares,
+            classNames: classNames
           }
         ]),
         stepNumber: history.length,
@@ -120,6 +146,7 @@ function Square(props) {
           <div className="game-board">
             <Board
               squares={current.squares}
+              classNames={current.classNames}
               onClick={i => this.handleClick(i)}
             />
           </div>

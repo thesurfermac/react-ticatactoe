@@ -22,7 +22,7 @@ body {
     border: 1px solid #999;
     float: left;
     font-size: 24px;
-    font-weight: bold;
+    font-weight: normal;
     line-height: 34px;
     height: 34px;
     margin-right: -1px;
@@ -32,8 +32,8 @@ body {
     width: 34px;
   }
 
-  .square.highlited {
-    background: #fff;
+  .highlited {
+    background: rgb(250, 169, 169);
     border: 1px solid #999;
     float: left;
     font-size: 24px;
