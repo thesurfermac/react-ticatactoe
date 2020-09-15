@@ -114,11 +114,20 @@ class Square extends React.Component{
         xIsNext: (step % 2) === 0
       });
     }
+
+    sortValues(){
+      const reverse = this.state.history.reverse();
+      this.setState({
+        history: reverse,
+      });
+
+    }
   
     render() {
       const history = this.state.history;
       const current = history[this.state.stepNumber];
       const winner = calculateWinner(current.squares);
+      
   
       const moves = history.map((step, move) => {
         const desc = move ?
@@ -133,13 +142,18 @@ class Square extends React.Component{
   
       let status;
       if (winner) {
-        status = "Winner: " + winner;
+        status = "Winner: " + winner[0];
+        for(let val of winner[1]){
+          current.classNames[val] = 'highlited';
+        }
+        
       } else {
         status = "Next player: " + (this.state.xIsNext ? "X" : "O");
       }
 
       const rowNumber = this.state.rowNumber;
       const colNumber = this.state.colNumber;
+      const sortValues = this.sortValues;
   
       return (
         <div className="game">
@@ -152,6 +166,7 @@ class Square extends React.Component{
           </div>
           <div className="game-info">
             <div>{status}</div>
+            <button onClick={sortValues}>sort</button>
             <ol>{moves}</ol>
       <span>{colNumber},{rowNumber}</span>
           </div>
@@ -178,7 +193,7 @@ class Square extends React.Component{
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
+        return [squares[a], lines[i]];
       }
     }
     return null;
