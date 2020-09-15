@@ -148,7 +148,13 @@ class Square extends React.Component{
         }
         
       } else {
-        status = "Next player: " + (this.state.xIsNext ? "X" : "O");
+        if(this.state.stepNumber === 9){
+          status = "The game is a draw";
+        }
+        else{
+
+          status = "Next player: " + (this.state.xIsNext ? "X" : "O");
+        }
       }
 
       const rowNumber = this.state.rowNumber;
